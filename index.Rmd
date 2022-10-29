@@ -8,10 +8,15 @@ output:
 ---
 
 
-
 ## Project thoughts
 
 As of right now, I don't have a specific topic I'd like to focus on. Some topics that do interest me are the influence of the US with cartels(organized crime) in Mexico: Gun Control. Another topic would be the factors that lead immigrants on fleeing their countries(specifically Latin America), their journey to the US-Mexico Border, the disappearances of many immigrants, and dive deeper into immigration preferences in the US.
+
+
+##Finding a data source:
+
+Do the social problems undocumented immigrants face lead to low life expectancies? 
+In this study, I plan to examine the factors that lower undocumented immigrants’ life expectancy. I hypothesize that the more social problems undocumented immigrant communities face, the lower their life expectancy. Many undocumented individuals in the United States work risky jobs, have no benefits, lack access to healthcare, are more likely to live in unsafe conditions, and face environmental injustice. Therefore, my explanatory variable is the social problems present in the immigrant community, looking specifically into the tables provided in the data. My sample is comprised of neighborhood quality, safety problems, services problems, environmental problems, and housing unit quality. I still need to look into the data set to find a way to also include the life expectancy...
 
 
 
