@@ -1,7 +1,7 @@
 ---
 title: "GOV50 Final Project Thoughts"
 author: "Elizabeth Esteban"
-description: "Gun Control/The Journey of Immigrants in the Southern Border"
+description: "Analyzing Members of Congress and their Constituents"
 output:
   distill::distill_article:
     self_contained: false
@@ -10,16 +10,51 @@ output:
 
 ## Project thoughts
 
-As of right now, I don't have a specific topic I'd like to focus on. Some topics that do interest me are the influence of the US with cartels(organized crime) in Mexico: Gun Control. Another topic would be the factors that lead immigrants on fleeing their countries(specifically Latin America), their journey to the US-Mexico Border, the disappearances of many immigrants, and dive deeper into immigration preferences in the US.
+For the final project, I'd like to analyze how effective Congress is. Members of Congress take on a big role of representing their constituents. Nevertheless, how well do they actually represent the people? Does party and interest groups take on a big role in their decision making? Do constituents solely vote on party preferences or are their any other factors that come in to play? In this project, I'll specifically be looking at the 116th House of Representatives. 
 
 
 ##Finding a data source:
 
-Do the social problems undocumented immigrants face lead to low life expectancies? 
-In this study, I plan to examine the factors that lower undocumented immigrants’ life expectancy. I hypothesize that the more social problems undocumented immigrant communities face, the lower their life expectancy. Many undocumented individuals in the United States work risky jobs, have no benefits, lack access to healthcare, are more likely to live in unsafe conditions, and face environmental injustice. Therefore, my explanatory variable is the social problems present in the immigrant community, looking specifically into the tables provided in the data. My sample is comprised of neighborhood quality, safety problems, services problems, environmental problems, and housing unit quality. I still need to look into the data set to find a way to also include the life expectancy...
+Do our members of Congress do a good job on representing the people? In this study, I plan to examine the shared characteristics that lead to constituents electing an individual for Congress. Is this based on party preferences, or certain characterists? Does a member's committee reflect the needs of their district? 
 
+Party or Constituents? What matters most for Members of Congress? Given how often members are divided into "yeas" and "nays" along the party line, it may seem evident that parties matter. Oftentimes, when casting for ostensibly party votes, members of Congress vote with fellow party members in spite of their disagreement of the policy or is it due to their agreement? (Krehbiel 1993). In this case study, I plan to measure district ideology using presidential vote share in districts. I'll be looking into each district's avergae Republican vote share from the 2012, 2016, and 2020 Presidential elections. The dependent variable in my analysis will be each member's DW-Nominate score and the explanatory variable is each district's ideology and the member's political party. 
 
+##1st Data Visualization
 
+```{r}
+library(haven)
+library(tidyr)
+library(tidyverse)
+congress <- read_dta("congress.dta")
+```
+
+```{r}
+congress <- congress |>
+  mutate(
+    republican = if_else(party_code == 200,
+                         "1","0"))
+congress
+
+congress <- congress|>
+  mutate(
+    Rpres_1220 = ((Romney12)/(Romney12 + Obama12) + (Trump16)/(Trump16 + Clinton16) + (Trump20)/(Biden20 + Trump20))/3)
+
+congress
+
+#scatterplot
+scatterplot01 <- ggplot(congress) +
+  geom_point(aes(x=Rpres_1220, y=nominate_dim1)) +
+  labs(title="1st DW-Nominate by Republican Presidential Vote Share ",
+       x="Republican Presidential Vote Share",
+       y="First Dimension DW-Nominate")
+
+ggsave(plot=scatterplot01, 
+       filename = "Rpres_1220_scatter.pdf",
+       width=7,
+       height=5)
+
+scatterplot01
+```
 
 
 
