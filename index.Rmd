@@ -15,8 +15,6 @@ For the final project, I'd like to analyze how effective Congress is. Members of
 
 ##Finding a data source:
 
-Do our members of Congress do a good job on representing the people? In this study, I plan to examine the shared characteristics that lead to constituents electing an individual for Congress. Is this based on party preferences, or certain characterists? Does a member's committee reflect the needs of their district? 
-
 Party or Constituents? What matters most for Members of Congress? Given how often members are divided into "yeas" and "nays" along the party line, it may seem evident that parties matter. Oftentimes, when casting for ostensibly party votes, members of Congress vote with fellow party members in spite of their disagreement of the policy or is it due to their agreement? (Krehbiel 1993). In this case study, I plan to measure district ideology using presidential vote share in districts. I'll be looking into each district's avergae Republican vote share from the 2012, 2016, and 2020 Presidential elections. The dependent variable in my analysis will be each member's DW-Nominate score and the explanatory variable is each district's ideology and the member's political party. 
 
 ##1st Data Visualization
@@ -55,6 +53,70 @@ ggsave(plot=scatterplot01,
 
 scatterplot01
 ```
+#Scatterplot with regression line
+```{r}
+mod01 <- lm(data=congress, nominate_dim1 ~ Rpres_1220)
+
+summary(mod01)
+```
+
+```{r}
+mod01 <- lm(data=congress, nominate_dim1 ~ Rpres_1220)
+
+scatterplot01_lm <- ggplot(congress) +
+  geom_point(aes(x= Rpres_1220, y= nominate_dim1)) +
+  labs(title="1st DW-Nominate by Republican Presidential Vote Share",
+       x="Republican Presidential Vote Share",
+       y="First Dimension DW-Nominate") +
+  geom_abline(slope=mod01$coefficients[2], intercept = mod01$coefficients[1], 
+              color="blue",
+              linetype="dashed")
+  
+ggsave(plot=scatterplot01_lm, 
+       filename = "Rpres_1220_scatter_lm.pdf",
+       width=7,
+       height=5)
+scatterplot01_lm
+```
+
+#Basic scatterplot with labels and color-coding
+
+```{r}
+scatterplot02 <- ggplot(congress) +
+  geom_text(aes(x=Rpres_1220, y=nominate_dim1, label= if_else(republican == 1, "R", "D"),
+                color=factor(republican))) + 
+  labs(title="1st DW-Nominate by Republican Vote Share",
+       x="Republican Presidential Vote Share",
+       y="First Dimension DW-Nominate") +
+  scale_color_manual(name="Party", labels=c("Democrats", "Republicans"), values=c("Blue", "Red")) 
+
+scatterplot02
+```
+#Scatterplot with regression lines for Democrats and Republicans
+```{r}
+mod02 <- lm(data=congress, nominate_dim1~ Rpres_1220 + republican)
+summary(mod02)
+
+scatterplot03 <- ggplot(congress) +
+  geom_text(aes(x=Rpres_1220, y=nominate_dim1, label= if_else(republican == 1, "R", "D"),
+                color=factor(republican))) + 
+  labs(title="1st DW-Nominate by Republican Vote Share",
+       x="Republican Presidential Vote Share",
+       y="First Dimension DW-Nominate") +
+  geom_abline(intercept= mod02$coefficients[1],
+          slope = mod02$coefficients[2], 
+              color="blue",
+              linetype="dashed") +
+  geom_abline(intercept= mod02$coefficients[1] + mod02$coefficients[3],
+          slope = mod02$coefficients[2],
+              color="blue",
+              linetype="dashed") +
+  scale_color_manual(name="Party", labels=c("Democrats", "Republicans"), values=c("Blue", "Red")) 
+
+scatterplot03
+```
 
 
+The estimated coefficient on the Republican party indicator shows each party's mean and how the first dimension DW-Nominate changes given a one unit shift in the Republican Presidential vote share and the republican party indicator. Thus, this demonstrates how party's line with each Mcs' DW-Nominate scores(beliefs) and each district's party preference shown in the Republican Presidential vote Share. Thus, members of congress dw-nominate scores shows us how members do share similar attitudes as their constituents. (will expand more)
 
+republican vote share = district ideology

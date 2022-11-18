@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["congress.dta","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","Rpres_1220_scatter.pdf"]}
+  {"type":"character","attributes":{},"value":["congress.dta","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/figure-html5/unnamed-chunk-5-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/header-attrs-2.16/header-attrs.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","Rpres_1220_scatter_lm.pdf","Rpres_1220_scatter.pdf"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1520,7 +1520,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="project-thoughts">Project thoughts</h2>
 <p>For the final project, I’d like to analyze how effective Congress is. Members of Congress take on a big role of representing their constituents. Nevertheless, how well do they actually represent the people? Does party and interest groups take on a big role in their decision making? Do constituents solely vote on party preferences or are their any other factors that come in to play? In this project, I’ll specifically be looking at the 116th House of Representatives.</p>
 <p>##Finding a data source:</p>
-<p>Do our members of Congress do a good job on representing the people? In this study, I plan to examine the shared characteristics that lead to constituents electing an individual for Congress. Is this based on party preferences, or certain characterists? Does a member’s committee reflect the needs of their district?</p>
 <p>Party or Constituents? What matters most for Members of Congress? Given how often members are divided into “yeas” and “nays” along the party line, it may seem evident that parties matter. Oftentimes, when casting for ostensibly party votes, members of Congress vote with fellow party members in spite of their disagreement of the policy or is it due to their agreement? (Krehbiel 1993). In this case study, I plan to measure district ideology using presidential vote share in districts. I’ll be looking into each district’s avergae Republican vote share from the 2012, 2016, and 2020 Presidential elections. The dependent variable in my analysis will be each member’s DW-Nominate score and the explanatory variable is each district’s ideology and the member’s political party.</p>
 <p>##1st Data Visualization</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1597,7 +1596,119 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+#Scatterplot with regression line
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mod01</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>congress</span>, <span class='va'>nominate_dim1</span> <span class='op'>~</span> <span class='va'>Rpres_1220</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>mod01</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = nominate_dim1 ~ Rpres_1220, data = congress)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.71857 -0.19262  0.02463  0.18058  0.70452 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -1.08799    0.03522  -30.89   &lt;2e-16 ***
+Rpres_1220   2.39604    0.06983   34.31   &lt;2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.2422 on 442 degrees of freedom
+  (1 observation deleted due to missingness)
+Multiple R-squared:  0.7271,    Adjusted R-squared:  0.7264 
+F-statistic:  1177 on 1 and 442 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mod01</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>congress</span>, <span class='va'>nominate_dim1</span> <span class='op'>~</span> <span class='va'>Rpres_1220</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>scatterplot01_lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>congress</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span> <span class='va'>Rpres_1220</span>, y<span class='op'>=</span> <span class='va'>nominate_dim1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title<span class='op'>=</span><span class='st'>"1st DW-Nominate by Republican Presidential Vote Share"</span>,</span>
+<span>       x<span class='op'>=</span><span class='st'>"Republican Presidential Vote Share"</span>,</span>
+<span>       y<span class='op'>=</span><span class='st'>"First Dimension DW-Nominate"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_abline</a></span><span class='op'>(</span>slope<span class='op'>=</span><span class='va'>mod01</span><span class='op'>$</span><span class='va'>coefficients</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>, intercept <span class='op'>=</span> <span class='va'>mod01</span><span class='op'>$</span><span class='va'>coefficients</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, </span>
+<span>              color<span class='op'>=</span><span class='st'>"blue"</span>,</span>
+<span>              linetype<span class='op'>=</span><span class='st'>"dashed"</span><span class='op'>)</span></span>
+<span>  </span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggsave</a></span><span class='op'>(</span>plot<span class='op'>=</span><span class='va'>scatterplot01_lm</span>, </span>
+<span>       filename <span class='op'>=</span> <span class='st'>"Rpres_1220_scatter_lm.pdf"</span>,</span>
+<span>       width<span class='op'>=</span><span class='fl'>7</span>,</span>
+<span>       height<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span></span>
+<span><span class='va'>scatterplot01_lm</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<p>#Basic scatterplot with labels and color-coding</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>scatterplot02</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>congress</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Rpres_1220</span>, y<span class='op'>=</span><span class='va'>nominate_dim1</span>, label<span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>republican</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='st'>"R"</span>, <span class='st'>"D"</span><span class='op'>)</span>,</span>
+<span>                color<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>republican</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title<span class='op'>=</span><span class='st'>"1st DW-Nominate by Republican Vote Share"</span>,</span>
+<span>       x<span class='op'>=</span><span class='st'>"Republican Presidential Vote Share"</span>,</span>
+<span>       y<span class='op'>=</span><span class='st'>"First Dimension DW-Nominate"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_color_manual</a></span><span class='op'>(</span>name<span class='op'>=</span><span class='st'>"Party"</span>, labels<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Democrats"</span>, <span class='st'>"Republicans"</span><span class='op'>)</span>, values<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Blue"</span>, <span class='st'>"Red"</span><span class='op'>)</span><span class='op'>)</span> </span>
+<span></span>
+<span><span class='va'>scatterplot02</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+</div>
+#Scatterplot with regression lines for Democrats and Republicans
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>mod02</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>congress</span>, <span class='va'>nominate_dim1</span><span class='op'>~</span> <span class='va'>Rpres_1220</span> <span class='op'>+</span> <span class='va'>republican</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>mod02</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = nominate_dim1 ~ Rpres_1220 + republican, data = congress)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.42739 -0.07335 -0.00132  0.07612  0.47083 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.60350    0.02177  -27.73   &lt;2e-16 ***
+Rpres_1220   0.64489    0.05853   11.02   &lt;2e-16 ***
+republican1  0.71354    0.01927   37.03   &lt;2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.1196 on 441 degrees of freedom
+  (1 observation deleted due to missingness)
+Multiple R-squared:  0.9336,    Adjusted R-squared:  0.9333 
+F-statistic:  3099 on 2 and 441 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>scatterplot03</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>congress</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Rpres_1220</span>, y<span class='op'>=</span><span class='va'>nominate_dim1</span>, label<span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>republican</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='st'>"R"</span>, <span class='st'>"D"</span><span class='op'>)</span>,</span>
+<span>                color<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>republican</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title<span class='op'>=</span><span class='st'>"1st DW-Nominate by Republican Vote Share"</span>,</span>
+<span>       x<span class='op'>=</span><span class='st'>"Republican Presidential Vote Share"</span>,</span>
+<span>       y<span class='op'>=</span><span class='st'>"First Dimension DW-Nominate"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_abline</a></span><span class='op'>(</span>intercept<span class='op'>=</span> <span class='va'>mod02</span><span class='op'>$</span><span class='va'>coefficients</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,</span>
+<span>          slope <span class='op'>=</span> <span class='va'>mod02</span><span class='op'>$</span><span class='va'>coefficients</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>, </span>
+<span>              color<span class='op'>=</span><span class='st'>"blue"</span>,</span>
+<span>              linetype<span class='op'>=</span><span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_abline</a></span><span class='op'>(</span>intercept<span class='op'>=</span> <span class='va'>mod02</span><span class='op'>$</span><span class='va'>coefficients</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>mod02</span><span class='op'>$</span><span class='va'>coefficients</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span>,</span>
+<span>          slope <span class='op'>=</span> <span class='va'>mod02</span><span class='op'>$</span><span class='va'>coefficients</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>,</span>
+<span>              color<span class='op'>=</span><span class='st'>"blue"</span>,</span>
+<span>              linetype<span class='op'>=</span><span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_color_manual</a></span><span class='op'>(</span>name<span class='op'>=</span><span class='st'>"Party"</span>, labels<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Democrats"</span>, <span class='st'>"Republicans"</span><span class='op'>)</span>, values<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Blue"</span>, <span class='st'>"Red"</span><span class='op'>)</span><span class='op'>)</span> </span>
+<span></span>
+<span><span class='va'>scatterplot03</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+</div>
+<p>The estimated coefficient on the Republican party indicator shows each party’s mean and how the first dimension DW-Nominate changes given a one unit shift in the Republican Presidential vote share and the republican party indicator. Thus, this demonstrates how party’s line with each Mcs’ DW-Nominate scores(beliefs) and each district’s party preference shown in the Republican Presidential vote Share. Thus, members of congress dw-nominate scores shows us how members do share similar attitudes as their constituents. (will expand more)</p>
+<p>republican vote share = district ideology</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
