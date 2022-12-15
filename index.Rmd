@@ -1,24 +1,41 @@
 ---
-title: "GOV50 Final Project Thoughts"
+title: "GOV50 Final Project"
 author: "Elizabeth Esteban"
-description: "Analyzing Members of Congress and their Constituents"
+description: "Party or Constituents? What matters most for Members of Congress?"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
+## Background Information and Research Topic
+Party or Constituents? What matters most for Members of Congress? The polarization and gridlock in Congress is a big challenge for members of Congress. Given how often members are divided into "yeas" and "nays" along the party line, it may seem evident that parties matter. Parties allow constituents to support candidates who share similar ideologies, beliefs, and other characteristics that are important to them when looking at who to support. Oftentimes, when casting for ostensibly party votes, members of Congress vote with fellow party members in spite of their disagreement of the policy or is it due to their agreement? In other words, are parties solely correlated with legislator's preferences rather than an institution that influences and disciplines its membership. Thus, in this research report, I hope to analyze which one has a stronger role in determining how a member votes; their constituents or their party. 
 
-## Project thoughts
+## About the Data 
+In this research study, I plan to measure district ideology using presidential vote share in the congressional districts. I'll be looking into each district's average Republican vote share from the 2012, 2016, and 2020 Presidential elections. The dependent variable in my analysis will be each member's DW-Nominate score and the explanatory variable is each district's ideology and the member's political party. 
 
-For the final project, I'd like to analyze how effective Congress is. Members of Congress take on a big role of representing their constituents. Nevertheless, how well do they actually represent the people? Does party and interest groups take on a big role in their decision making? Do constituents solely vote on party preferences or are their any other factors that come in to play? In this project, I'll specifically be looking at the 116th House of Representatives. 
+In order to measure the members' ideological position, I'll use the first dimension DW-Nominate scores. DW-Nominate scores are a measurement of member's ideological positons based on their roll-call votes. They are determined by ctaking down every roll-call cote a member takes and seeing how often a member takes a liberal position on a legislation versus how often a member takes a conservative position on a legislation. A lower score (closer to -1) indicates a a more liberal member, and a higher score (closer to 1) indicates a more conservative member. 
+
+#### The variables in my data set include:
+
+• district_code: Congressional district number
+• state_abbrev: State abbreviation
+• party_code: Member’s party (Democrat =100 and Republican =200) 
+• bioname: Name of member
+• nominate_dim1: First dimension of DW-NOMINATE
+• nominate_dim2: Second dimension of DW-NOMINATE 
+• Biden20: Biden’s district vote share in 2020
+• Trump20: Trump’s district vote share in 2020
+• Clinton16: Clinton’s district vote share in 2016
+• Trump16: Trump’s district vote share in 2016
+• Obama12: Obama’s district vote share in 2012
+• Romney12: Romney’s district vote share in 2012
+ 
+This study is an example of a cross-sectional study; where we take the presidential vote share in each district over time in the 2012, 2016, and 2020 presidential elections. This changes by what individuals vote and how (meaning which candidate). This could stay consistent in each district or change, but we are looking at the overall district's average Republican voter share from these elections, not individually. 
 
 
-##Finding a data source:
+## Data Visualizations
 
-Party or Constituents? What matters most for Members of Congress? Given how often members are divided into "yeas" and "nays" along the party line, it may seem evident that parties matter. Oftentimes, when casting for ostensibly party votes, members of Congress vote with fellow party members in spite of their disagreement of the policy or is it due to their agreement? (Krehbiel 1993). In this case study, I plan to measure district ideology using presidential vote share in districts. I'll be looking into each district's avergae Republican vote share from the 2012, 2016, and 2020 Presidential elections. The dependent variable in my analysis will be each member's DW-Nominate score and the explanatory variable is each district's ideology and the member's political party. 
-
-##1st Data Visualization
-
+#### MCs’ first dimension DW-NOMINATE scores vs. Republican presidential vote share in their district
 ```{r}
 library(haven)
 library(tidyr)
@@ -39,29 +56,11 @@ congress <- congress|>
 
 congress
 
-#scatterplot
-scatterplot01 <- ggplot(congress) +
-  geom_point(aes(x=Rpres_1220, y=nominate_dim1)) +
-  labs(title="1st DW-Nominate by Republican Presidential Vote Share ",
-       x="Republican Presidential Vote Share",
-       y="First Dimension DW-Nominate")
-
-ggsave(plot=scatterplot01, 
-       filename = "Rpres_1220_scatter.pdf",
-       width=7,
-       height=5)
-
-scatterplot01
-```
 #Scatterplot with regression line
-```{r}
 mod01 <- lm(data=congress, nominate_dim1 ~ Rpres_1220)
+mod01
 
 summary(mod01)
-```
-
-```{r}
-mod01 <- lm(data=congress, nominate_dim1 ~ Rpres_1220)
 
 scatterplot01_lm <- ggplot(congress) +
   geom_point(aes(x= Rpres_1220, y= nominate_dim1)) +
@@ -71,31 +70,17 @@ scatterplot01_lm <- ggplot(congress) +
   geom_abline(slope=mod01$coefficients[2], intercept = mod01$coefficients[1], 
               color="blue",
               linetype="dashed")
-  
-ggsave(plot=scatterplot01_lm, 
-       filename = "Rpres_1220_scatter_lm.pdf",
-       width=7,
-       height=5)
 scatterplot01_lm
 ```
+By looking at the graph above, where we measure the the Member of Congress first dimension DW-Nominate scores (vertical axis) vs. the Republican vote share in their district (horizontal axis), the district ideology is predictive of member ideology. We see how districts with less Republican Presidential Vote share tend to have members of congress who lean more liberal, and those with a higher number of Republican Presidential votes have members of congress who leans more conservative. The results of the estimated intercept and coefficient on the republican voter share (mod01) are -1.088 (estimated intercept) and 2.396 (estimated coefficient). The estimated intercept, -1.088, shows that if the republican voter share is 0, then we'd predict the member of congress' to have a first-dimension dw-nominate score of -1.088 (very liberal). The Rpres_1220 coefficient shows that  for every one unit increase in the republican voter share of the district, we'd predict an increase of the member's first-dimension dw-nominate score by 2.396 points on average. These coefficients are statistically significant because they have a p-value lower than 0.05. They are also substantively significant because it creates a meaningful effect in our rpres_1220 variable; the estimated coefficient effect are not too small to not create an effect.
 
-#Basic scatterplot with labels and color-coding
+#### Scatterplot with linear regression of the MC’s DW-NOMINATE scores (dependent variable) on the district ideology variable and an indicator variable for Republican (two explanatory variables) and two lines of best fit for Democrats and Republicans 
 
-```{r}
-scatterplot02 <- ggplot(congress) +
-  geom_text(aes(x=Rpres_1220, y=nominate_dim1, label= if_else(republican == 1, "R", "D"),
-                color=factor(republican))) + 
-  labs(title="1st DW-Nominate by Republican Vote Share",
-       x="Republican Presidential Vote Share",
-       y="First Dimension DW-Nominate") +
-  scale_color_manual(name="Party", labels=c("Democrats", "Republicans"), values=c("Blue", "Red")) 
-
-scatterplot02
-```
-#Scatterplot with regression lines for Democrats and Republicans
 ```{r}
 mod02 <- lm(data=congress, nominate_dim1~ Rpres_1220 + republican)
 summary(mod02)
+
+coef(mod02)
 
 scatterplot03 <- ggplot(congress) +
   geom_text(aes(x=Rpres_1220, y=nominate_dim1, label= if_else(republican == 1, "R", "D"),
@@ -115,8 +100,10 @@ scatterplot03 <- ggplot(congress) +
 
 scatterplot03
 ```
+The scatterplot above is a recreation of the scatterplot I first introduced in this research paper. Nevertheless, I hava labeled the Democratic MCs with a blue "D"  And Republican MCs with a red "R". For this graph, I have also ran a linear regression of the MC's DW-Nominate scores (dependent variable) on the district ideology variable and an indicator variable for Republican (two explanatory variables). Ultimately, this graph demonstrates how party's line with each MC's DW-Nominate scores (beliefs) and each district's party preference shown in the Republican Presidential vote Share. Thus, members of congress dw-nominate scores shows us how members do share similar attitudes as their constituents. The estimated intercept is -0.6035025, and the estimated coefficients are 0.6448851 (Rpres_1220) and 0.7135428 for republican indicator variable. The estimated intercept, -0.6035025, shows that if there is 0 republican presidential vote share in a district, and no indication that the candidate is Republican, then the DW-Nominate score for the candidate would be -0.6035025. The estimated coefficient for the republican voter share in the district is, 0.6448851, which shows that for every one unit increase in the republican presidential voter share in the district, we'd predict an increase in the member's dw-nominate score by 0.6448851 points in average, holding all other variables, republican indicator, constant. Lastly, the estimated coefficient on the party variable is 0.71 meaning for every one unit increase in 
+republican indicator, we'd predict an increase in member of congress' dw-nominate score by 0.71, holding all other variables, rpres_1220 constant. Practically it means that voting behavior is seemingly influenced not solely by member ideology but by the party the belong too. As such this provides evidence that parties are not simply labels for like-minded members but organizations that hold power and can convince members of congress to change their vote, perhaps in ways that advance the party's goals. These coefficients are statistically significant since they have a p-value lower than 0.05, very close to 0. Nevertheless, this is an example of substantively significant because while the range of DW-NOMINATE is -1 to 1 the observed range is -0.831 to 0.936. Additionally a one standard deviation change in Republican presidential vote share (0.16) predicts a 0.394 increase in DW-NOMINATE score. In other words, the increase is roughly 44% of the difference between the average Democrat and Republican DW-NOMINATE score. Ultimately, there is a strong positive correlation between Republican presidential vote share and voting behavior.
 
 
-The estimated coefficient on the Republican party indicator shows each party's mean and how the first dimension DW-Nominate changes given a one unit shift in the Republican Presidential vote share and the republican party indicator. Thus, this demonstrates how party's line with each Mcs' DW-Nominate scores(beliefs) and each district's party preference shown in the Republican Presidential vote Share. Thus, members of congress dw-nominate scores shows us how members do share similar attitudes as their constituents. (will expand more)
+## Conclusion
 
-republican vote share = district ideology
+Parties have a strong influence in how members of congress vote. Parties aren't solely a label for people who have the same ideologies and beliefs, but rather it does have an effect in how members of congress vote on legislation. These parties can persuade members of congress to change their vote on certain legislation, in hopes to advance the party's goals. As seen in the first visualization, there is a strong relationship between the district's republican voter share (district ideology) and the member of Congress' first-dimension DW-Nominate scores. In the second visualization, we find evidence that parties have a bg influence in the voting pattern of member's of congress, and are not solely an institution. To conclude, parties have a big influence in both the constituent's beliefs and their votes and their member of congress' voting patterns. Nevertheless, we can interpret that constituents (voters) can use party as a way to vote for their member of congress, and ultimately see that the correlation of member's of congress ideologies both align with constituents and their party because they are all connected with the same beliefs and ideologies. Parties have a big influence in people's lives and therefore I think that in a nation where ideologies and beliefs are ingrained in our daily lives, we can't really tell 100% what is ruling our member's of congress voting patterns because they all go back to party preferences and the ideologies they institutionalize and that voters also follow in their daily lives.
